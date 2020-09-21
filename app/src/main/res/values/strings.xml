@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AssignmentWeek8</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="halo_name">Halo Abika, untuk menlanjutkan register. Silahkan isi data di bawah ini</string>
+</resources>
