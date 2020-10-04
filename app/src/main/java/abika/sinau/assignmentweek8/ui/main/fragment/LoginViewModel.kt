@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
  * Bismillahirrahmanirrahim
  */
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
-    val repository = RepositoryLocalUsersImpl(application.applicationContext)
+//    val repository = RepositoryLocalUsersImpl(application.applicationContext)
 
     //    val rDataUsers = MutableLiveData
     var _isLoading = MutableLiveData<Boolean>()
@@ -21,11 +21,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loginUsers(email: String?, password: String?) {
         _isLoading.value = true
-        repository.getLoginUsersDatabase(email ?: "", password ?: "", { response ->
-            _isLoading.value = false
-        }, { error ->
-            _isLoading.value = false
-            _isError.value = error.localizedMessage
-        })
+//        repository.getLoginUsersDatabase(email ?: "", password ?: "", { response ->
+//            _isLoading.value = false
+//        }, { error ->
+//            _isLoading.value = false
+//            _isError.value = error.localizedMessage
+//        })
     }
 }
