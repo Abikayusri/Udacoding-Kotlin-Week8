@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.register.Register2Fragment">
+    tools:context=".ui.register.register2.Register2Fragment">
 
     <TextView
         android:id="@+id/back"
@@ -28,8 +28,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="8dp"
-            tools:text="@string/halo_name"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            tools:text="@string/halo_name" />
 
         <EditText
             android:id="@+id/etPassword"
@@ -67,4 +67,11 @@
             android:text="Finish"
             android:textColor="@android:color/white" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pbRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible" />
 </RelativeLayout>
