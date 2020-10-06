@@ -12,7 +12,8 @@ interface ShopsDao {
     @Query("SELECT * FROM shops ORDER BY date ASC")
     fun getAllDataShops(): List<ShopsEntity>
 
-    @Insert(onConflict = REPLACE)
+//    @Insert(onConflict = REPLACE)
+    @Insert
     fun insertDataShops(shopsEntity: ShopsEntity)
 
     @Update

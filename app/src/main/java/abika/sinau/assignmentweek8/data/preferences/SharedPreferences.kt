@@ -10,7 +10,7 @@ import android.content.SharedPreferences
 class SharedPreferences(var c: Context) {
     var pref: SharedPreferences? = null
     var editor: SharedPreferences.Editor? = null
-    var PREF_NAME = "LOGINREGISTER"
+    var PREF_NAME = "LOGIN"
 
     var ISLOGIN = "isLogin"
     var NAME = "name"
@@ -27,10 +27,10 @@ class SharedPreferences(var c: Context) {
             editor?.putBoolean(ISLOGIN, true)
             editor?.commit()
         }
-    var nama: String?
+    var name: String?
         get() = pref?.getString(NAME, "")
-        set(nama) {
-            editor?.putString(NAME, nama)
+        set(name) {
+            editor?.putString(NAME, name)
             editor?.commit()
         }
     var email: String?

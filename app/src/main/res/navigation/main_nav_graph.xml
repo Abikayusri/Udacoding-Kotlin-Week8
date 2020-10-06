@@ -66,9 +66,9 @@
     </fragment>
     <activity
         android:id="@+id/homeActivity"
-        android:name="abika.sinau.assignmentweek8.ui.home.HomeActivity"
+        android:name="abika.sinau.assignmentweek8.ui.home.MainActivity"
         android:label="activity_home"
-        tools:layout="@layout/activity_home"
+        tools:layout="@layout/activity_main"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"

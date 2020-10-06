@@ -2,8 +2,8 @@ package abika.sinau.assignmentweek8.ui.splash_screen
 
 import abika.sinau.assignmentweek8.R
 import abika.sinau.assignmentweek8.data.preferences.SharedPreferences
-import abika.sinau.assignmentweek8.ui.home.HomeActivity
-import abika.sinau.assignmentweek8.ui.main.MainActivity
+import abika.sinau.assignmentweek8.ui.home.MainActivity
+import abika.sinau.assignmentweek8.ui.main.BoardingActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,9 +18,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             if (session.isLogin != false) {
-                startActivity(Intent(this@SplashScreenActivity, HomeActivity::class.java))
-            } else {
                 startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+            } else {
+                startActivity(Intent(this@SplashScreenActivity, BoardingActivity::class.java))
             }
             finishAffinity()
         }, 3000)

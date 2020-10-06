@@ -17,6 +17,12 @@ data class ShopsEntity (
     @ColumnInfo(name = "title")
     var title: String? =null,
 
+    @ColumnInfo(name = "place")
+    var place: String? =null,
+
+    @ColumnInfo(name = "quantity")
+    var quantity: Int? =null,
+
     @ColumnInfo(name = "note")
     var note: String? =null,
 

@@ -1,5 +1,7 @@
 package abika.sinau.assignmentweek8.data.database.shops
 
+import abika.sinau.assignmentweek8.data.database.user.UsersDao
+import abika.sinau.assignmentweek8.data.database.user.UsersEntity
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -30,3 +32,26 @@ abstract class ShopsDatabase : RoomDatabase() {
         }
     }
 }
+
+//@Database(entities = [ShopsEntity::class, UsersEntity::class], version = 1)
+//abstract class ShopsDatabase : RoomDatabase() {
+//    abstract fun shopsDao(): ShopsDao
+//    abstract fun usersDao(): UsersDao
+//
+//    companion object {
+//        private var instance: ShopsDatabase? = null
+//        fun getInstanceShops(context: Context): ShopsDatabase? {
+//            if (instance == null) {
+//                synchronized(ShopsDatabase::class) {
+//                    instance = Room.databaseBuilder(
+//                        context.applicationContext,
+//                        ShopsDatabase::class.java,
+//                        "dbshops.db"
+//                    )
+//                        .build()
+//                }
+//            }
+//            return instance
+//        }
+//    }
+//}

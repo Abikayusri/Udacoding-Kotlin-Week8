@@ -1,7 +1,7 @@
 package abika.sinau.assignmentweek8.ui.register
 
 import abika.sinau.assignmentweek8.data.database.user.UsersEntity
-import abika.sinau.assignmentweek8.repository.users.RepositoryLocalUsersImpl
+import abika.sinau.assignmentweek8.repository.users.RepositoryLocalUsers
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,10 +12,10 @@ import androidx.lifecycle.MutableLiveData
  * Bismillahirrahmanirrahim
  */
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
-    val repository = RepositoryLocalUsersImpl(application.applicationContext)
+    val repository = RepositoryLocalUsers(application.applicationContext)
 
-    var _rActionMhs = MutableLiveData<Boolean>()
-    var rActionMhs: LiveData<Boolean> = _rActionMhs
+    var _rActionUser = MutableLiveData<Boolean>()
+    var rActionMhs: LiveData<Boolean> = _rActionUser
     var _isError = MutableLiveData<String>()
     var isError: LiveData<String> = _isError
     var _isEmpty = MutableLiveData<String>()
