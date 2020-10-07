@@ -16,8 +16,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class RepositoryLocalUsers(context: Context) {
     private val TAG = "RepositoryLocalUsers"
 
-        private val userDatabase = UsersDatabase.getInstanceUsers(context)
-//    private val userDatabase = ShopsDatabase.getInstanceShops(context)
+//        private val userDatabase = UsersDatabase.getInstanceUsers(context)
+    private val userDatabase = ShopsDatabase.getInstanceShops(context)
 
     fun addUsers(
         user: UsersEntity,

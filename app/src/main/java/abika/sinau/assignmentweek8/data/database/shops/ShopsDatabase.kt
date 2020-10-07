@@ -11,9 +11,10 @@ import androidx.room.RoomDatabase
  * Created by Abika Chairul Yusri on 21/09/2020
  * Bismillahirrahmanirrahim
  */
-@Database(entities = [ShopsEntity::class], version = 1)
+@Database(entities = [ShopsEntity::class, UsersEntity::class], version = 1)
 abstract class ShopsDatabase : RoomDatabase() {
     abstract fun shopsDao(): ShopsDao
+    abstract fun usersDao(): UsersDao
 
     companion object {
         private var instance: ShopsDatabase? = null
@@ -33,10 +34,10 @@ abstract class ShopsDatabase : RoomDatabase() {
     }
 }
 
-//@Database(entities = [ShopsEntity::class, UsersEntity::class], version = 1)
+
+//@Database(entities = [ShopsEntity::class], version = 1)
 //abstract class ShopsDatabase : RoomDatabase() {
 //    abstract fun shopsDao(): ShopsDao
-//    abstract fun usersDao(): UsersDao
 //
 //    companion object {
 //        private var instance: ShopsDatabase? = null
