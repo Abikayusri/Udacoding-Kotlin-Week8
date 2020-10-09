@@ -1,7 +1,6 @@
 package abika.sinau.assignmentweek8.repository.users
 
 import abika.sinau.assignmentweek8.data.database.shops.ShopsDatabase
-import abika.sinau.assignmentweek8.data.database.user.UsersDatabase
 import abika.sinau.assignmentweek8.data.database.user.UsersEntity
 import android.content.Context
 import android.util.Log
@@ -29,9 +28,10 @@ class RepositoryLocalUsers(context: Context) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->
                 responseHandler(true)
-                Log.d(TAG, "addUsers: $response")
+                Log.d(TAG, "addUsers 1: $response")
             }, { error ->
                 // error ketika gagal
+                Log.d(TAG, "addUsers 2: $error")
                 errorHandler(error)
             })
     }
@@ -39,14 +39,14 @@ class RepositoryLocalUsers(context: Context) {
     fun getLoginUsersDatabase(
         email: String,
         password: String,
-        responseHandler: (Boolean?) -> Unit,
+        responseHandler: (Int?) -> Unit,
         errorHandler: (Throwable) -> Unit
     ) {
         Observable.fromCallable { userDatabase?.usersDao()?.getSelectedDataUsers(email, password) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                responseHandler(true)
+                responseHandler(it)
             }, {
                 errorHandler(it)
             })

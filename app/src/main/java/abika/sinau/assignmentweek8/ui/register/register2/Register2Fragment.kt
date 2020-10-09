@@ -1,12 +1,14 @@
 package abika.sinau.assignmentweek8.ui.register.register2
 
 import abika.sinau.assignmentweek8.R
+import abika.sinau.assignmentweek8.data.database.shops.ShopsDatabase
 import abika.sinau.assignmentweek8.data.database.user.UsersEntity
 import abika.sinau.assignmentweek8.ui.register.RegisterViewModel
 import abika.sinau.assignmentweek8.utils.extension.gone
 import abika.sinau.assignmentweek8.utils.extension.shortToast
 import abika.sinau.assignmentweek8.utils.extension.show
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_register2.*
 
 class Register2Fragment : Fragment(), View.OnClickListener {
     private lateinit var navController: NavController
+//    private var userData: ShopsDatabase? = null
 
     private lateinit var viewModel: RegisterViewModel
     private var getName: String? = null
@@ -34,12 +37,16 @@ class Register2Fragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.fragment_register2, container, false)
     }
 
+    private val TAG = "Register2Fragment"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getName = arguments?.getString("name")
         getEmail = arguments?.getString("email")
 
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+
+//        userData = context?.let { ShopsDatabase.getInstanceShops(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,8 +77,9 @@ class Register2Fragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun showError(it: String?) {
-        showToast(it)
+    private fun showError(it: Throwable?) {
+        showToast(it.toString())
+        Log.d(TAG, "showError: $it")
     }
 
     private fun showToast(it: String?) {
@@ -94,12 +102,30 @@ class Register2Fragment : Fragment(), View.OnClickListener {
                                 "name" to getName,
                                 "email" to getEmail,
                             )
+//                            Observable.fromCallable {
+//                                userData?.usersDao()?.insertDataUsers(
+//                                    UsersEntity(
+//                                        null,
+//                                        getName,
+//                                        getEmail,
+//                                        etPassword.text.toString()
+//                                    )
+//                                )
+//                            }
+//                                .subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
+//                                .subscribe({ response ->
+//                                    Log.d(TAG, "addUsers 1: $response")
+//                                }, { error ->
+//                                    // error ketika gagal
+//                                    Log.d(TAG, "addUsers 2: $error")
+//                                })
                             viewModel.insertUsers(
                                 UsersEntity(
                                     null,
+                                    getName,
                                     getEmail,
-                                    etPassword.text.toString(),
-                                    getEmail
+                                    etPassword.text.toString()
                                 )
                             )
                             navController.navigate(

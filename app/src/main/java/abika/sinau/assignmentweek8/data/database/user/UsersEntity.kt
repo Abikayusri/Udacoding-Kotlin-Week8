@@ -9,17 +9,17 @@ import androidx.room.PrimaryKey
  * Bismillahirrahmanirrahim
  */
 @Entity(tableName = "users")
-data class UsersEntity (
+data class UsersEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Int? = null,
 
+    @ColumnInfo(name = "username")
+    var userName: String? = null,
+
     @ColumnInfo(name = "email")
-    var email: String? =null,
+    var email: String? = null,
 
     @ColumnInfo(name = "password")
-    var password: String? =null,
-
-    @ColumnInfo(name = "username")
-    var userName: String? =null
+    var password: String? = null
 )

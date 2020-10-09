@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase
  * Created by Abika Chairul Yusri on 21/09/2020
  * Bismillahirrahmanirrahim
  */
-@Database(entities = [ShopsEntity::class, UsersEntity::class], version = 1)
+@Database(entities = [ShopsEntity::class, UsersEntity::class], version = 3)
 abstract class ShopsDatabase : RoomDatabase() {
     abstract fun shopsDao(): ShopsDao
     abstract fun usersDao(): UsersDao
