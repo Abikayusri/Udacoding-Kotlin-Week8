@@ -15,7 +15,6 @@ import androidx.lifecycle.MutableLiveData
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     val repository = RepositoryLocalUsers(application.applicationContext)
 
-    val rShowUsers = MutableLiveData<List<UsersEntity>>()
     var _isLoading = MutableLiveData<Boolean>()
     var isLoading: LiveData<Boolean> = _isLoading
     var _isLogin = MutableLiveData<Int>()
@@ -31,10 +30,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         repository.getLoginUsersDatabase(email ?: "", password ?: "", { response ->
             Log.d(TAG, "loginUsers: $response")
             _isLogin.value = response
-//            _isSuccess.value = true
         }, { error ->
             Log.d(TAG, "loginUsers: $error, ${error.localizedMessage}")
-//            _isSuccess.value = false
             _isError.value = error.localizedMessage
         })
     }

@@ -21,6 +21,7 @@ class RepositoryLocalShops(context: Context) {
         responseHandler: (Boolean) -> Unit,
         errorHandler: (Throwable) -> Unit
     ) {
+        Log.d(TAG, "addItemShop: masuk sini 1")
         Observable.fromCallable { shopDatabase?.shopsDao()?.insertDataShops(shop) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -57,12 +58,15 @@ class RepositoryLocalShops(context: Context) {
         responseHandler: (Boolean?) -> Unit,
         errorHandler: (Throwable) -> Unit
     ) {
+        Log.d(TAG, "updateItemShop: masuk sini 1")
         Observable.fromCallable { shopDatabase?.shopsDao()?.updateDataShops(shop) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                Log.d(TAG, "updateItemShop: masuk sini 2 $it, $responseHandler")
                 responseHandler(true)
             }, {
+                Log.d(TAG, "updateItemShop: masuk sini 3 $it, ${it.localizedMessage}")
                 errorHandler(it)
             })
     }
@@ -72,12 +76,15 @@ class RepositoryLocalShops(context: Context) {
         responseHandler: (Boolean?) -> Unit,
         errorHandler: (Throwable) -> Unit
     ) {
+        Log.d(TAG, "deleteItemShop: masuk sini 1")
         Observable.fromCallable { shopDatabase?.shopsDao()?.deleteDataShops(shop) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                Log.d(TAG, "deleteItemShop: masuk sini 2 $it")
                 responseHandler(true)
             }, {
+                Log.d(TAG, "deleteItemShop: masuk sini 3 $it, ${it.localizedMessage}")
                 errorHandler(it)
             })
     }

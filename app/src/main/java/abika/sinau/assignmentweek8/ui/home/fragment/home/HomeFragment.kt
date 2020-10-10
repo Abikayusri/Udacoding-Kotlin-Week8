@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import abika.sinau.assignmentweek8.R
+import abika.sinau.assignmentweek8.data.database.ShopsDatabase
 import abika.sinau.assignmentweek8.data.database.shops.ShopsEntity
 import abika.sinau.assignmentweek8.utils.extension.gone
 import abika.sinau.assignmentweek8.utils.extension.shortToast
@@ -14,11 +15,15 @@ import android.app.Dialog
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.dialog_form_shops.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.SimpleDateFormat
@@ -74,22 +79,16 @@ class HomeFragment : Fragment() {
                 val jumlahItem = view.findViewById<EditText>(R.id.etJumlahItemShops)
                 val keterangan = view.findViewById<EditText>(R.id.etKeterangan)
 
-//                viewModel.addDataShops(ShopsEntity(
-//                    null,
-//                    view.etNameItemShops.text.toString(),
-//                    view.etNamePlaceShops.text.toString(),
-//                    view.etJumlahItemShops.text.toString().toInt(),
-//                    view.etKeterangan.text.toString(),
-//                    getDate() ))
-
+                Log.d(TAG, "showAddDialogs: $nameItem, $namePlace, $jumlahItem, $keterangan, ${getDate()}")
                 viewModel.addDataShops(ShopsEntity(
                     null,
                     nameItem.text.toString(),
                     namePlace.text.toString(),
                     jumlahItem.text.toString().toInt(),
                     keterangan.text.toString(),
-                    getDate() ))
+                    getDate()))
 
+                viewModel.showDataShops()
 //                Log.d(TAG, "showAddDialogs: ${view.etNameItemShops}, ${view.etNamePlaceShops}, ${view.etJumlahItemShops}, ${view.etKeterangan}, ${getDate()}")
                 Log.d(TAG, "showAddDialogs: ${nameItem.text}, ${namePlace.text}, ${jumlahItem.text}, ${keterangan.text.toString()}, ${getDate()}")
                 dialogView?.dismiss()
@@ -113,9 +112,9 @@ class HomeFragment : Fragment() {
             showEmpty(it)
         })
 
-        viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
-            showSuccess(it)
-        })
+//        viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
+//            showSuccess(it)
+//        })
 
         viewModel.isLoading.observe(viewLifecycleOwner, Observer {
             showLoading(it)
@@ -128,10 +127,15 @@ class HomeFragment : Fragment() {
         viewModel.rAddShops.observe(viewLifecycleOwner, Observer {
             viewModel.showDataShops()
         })
+
+        viewModel.rActionShops.observe(viewLifecycleOwner, Observer {
+            viewModel.showDataShops()
+        })
     }
 
     private fun showDataShops(it: List<ShopsEntity>?) {
-        val adapter = HomeAdapter(it, object : HomeAdapter.OnClickListener {
+//        shortToast(requireContext(), "$it")
+        rvHome.adapter = HomeAdapter(it, object : HomeAdapter.OnClickListener {
             override fun onUpdate(item: ShopsEntity?) {
                 showUpdateDialogs(item)
             }
@@ -142,39 +146,46 @@ class HomeFragment : Fragment() {
                     setMessage("Yakin menghapus data?")
                     setPositiveButton("Hapus") { dialog, which ->
                         dialog.dismiss()
-                        viewModel.deleteDataShops()
+                        viewModel.deleteDataShops(item!!)
                     }
                     setNegativeButton("Cancel") { dialog, which ->
                         dialog.dismiss()
                     }
                 }.show()
             }
-
         })
-        rvHome.adapter = adapter
     }
 
     private fun showUpdateDialogs(item: ShopsEntity?) {
+        Log.d(TAG, "showUpdateDialogs: masuk sini 1 $item")
         val dialog = AlertDialog.Builder(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_form_shops, null)
         dialog.setView(view)
 
-        view.btnSave.text = "Update"
-        view.etNameItemShops.setText(item?.title)
-        view.etNamePlaceShops.setText(item?.place)
-        view.etJumlahItemShops.setText(item?.quantity.toString())
-        view.etKeterangan.setText(item?.note)
-        view.btnSave.setOnClickListener {
-            if (view.etNameItemShops.text.toString().isNullOrEmpty() || view.etNamePlaceShops.text.toString().isNullOrEmpty() ||
-                view.etJumlahItemShops.text.toString().isNullOrEmpty() || view.etKeterangan.text.toString().isNullOrEmpty()){
+        val btnSave = view.btnSave
+        val etNameItem = view.etNameItemShops
+        val etNamePlace = view.etNamePlaceShops
+        val etJumlah = view.etJumlahItemShops
+        val etKeterangan = view.etKeterangan
+
+        btnSave.text = "Update"
+        etNameItem.setText(item?.title)
+        etNamePlace.setText(item?.place)
+        etJumlah.setText(item?.quantity.toString())
+        etKeterangan.setText(item?.note)
+        btnSave.setOnClickListener {
+            if (etNameItem.text.toString().isNullOrEmpty() || etNamePlace.text.toString().isNullOrEmpty() ||
+                etJumlah.text.toString().isNullOrEmpty() || etKeterangan.text.toString().isNullOrEmpty()){
                 shortToast(requireContext(), "Data tidak boleh ada yang kosong!")
             } else {
+                Log.d(TAG, "showUpdateDialogs: masuk sini 2 ${item?.id}, ${etNameItem.text}, ${etNamePlace.text}," +
+                        "${etJumlah.text}, ${etKeterangan.text}")
                 viewModel.updateDataShops(ShopsEntity(
                     item?.id,
-                    view.etNameItemShops.text.toString(),
-                    view.etNamePlaceShops.text.toString(),
-                    view.etJumlahItemShops.text.toString().toInt(),
-                    view.etKeterangan.text.toString(),
+                    etNameItem.text.toString(),
+                    etNamePlace.text.toString(),
+                    etJumlah.text.toString().toInt(),
+                    etKeterangan.text.toString(),
                     getDate()
                 ))
                 dialogView?.dismiss()
@@ -204,9 +215,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showSuccess(it: Boolean?) {
-        if (it == true) shortToast(requireContext(), "Sukses Login")
-    }
+//    private fun showSuccess(it: Boolean?) {
+//        if (it == true) shortToast(requireContext(), "Sukses Login")
+//    }
 
     private fun showEmpty(it: String?) {
         shortToast(requireContext(), it)

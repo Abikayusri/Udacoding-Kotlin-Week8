@@ -44,7 +44,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
-            android:background="@drawable/bg_blue"
+            android:background="@drawable/bg_soft_red"
             android:text="Login"
             android:textColor="@android:color/white" />
 
@@ -55,7 +55,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:background="@drawable/bg_blue"
+            android:background="@drawable/bg_soft_red"
             android:text="Register"
             android:textColor="@android:color/white" />
     </LinearLayout>
