@@ -9,8 +9,7 @@
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_back"
-        android:padding="50dp"
+        android:padding="30dp"
         android:text="Result"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
@@ -64,7 +63,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
-            android:background="@drawable/bg_blue"
+            android:background="@drawable/bg_soft_red"
             android:text="Back to Login"
             android:textColor="@android:color/white" />
     </LinearLayout>
