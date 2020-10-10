@@ -1,6 +1,6 @@
 package abika.sinau.assignmentweek8.repository.users
 
-import abika.sinau.assignmentweek8.data.database.shops.ShopsDatabase
+import abika.sinau.assignmentweek8.data.database.ShopsDatabase
 import abika.sinau.assignmentweek8.data.database.user.UsersEntity
 import android.content.Context
 import android.util.Log

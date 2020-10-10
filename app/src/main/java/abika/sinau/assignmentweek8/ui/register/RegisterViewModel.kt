@@ -19,8 +19,6 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     var rActionMhs: LiveData<Boolean> = _rActionUser
     var _isError = MutableLiveData<Throwable>()
     var isError: LiveData<Throwable> = _isError
-    var _isEmpty = MutableLiveData<String>()
-    var isEmpty: LiveData<String> = _isEmpty
     var _isSuccess = MutableLiveData<Boolean>()
     var isSuccess: LiveData<Boolean> = _isSuccess
     var _isLoading = MutableLiveData<Boolean>()
@@ -35,10 +33,11 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             {
                 Log.d(TAG, "insertUsers 2: $it")
                 _isLoading.value = false
-                _isSuccess.value = it
+                _isSuccess.value = true
             }, {
                 Log.d(TAG, "insertUsers 3: $it")
                 _isLoading.value = false
+                _isSuccess.value = false
                 _isError.value = it
             })
     }

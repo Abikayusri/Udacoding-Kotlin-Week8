@@ -20,20 +20,21 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     var isLoading: LiveData<Boolean> = _isLoading
     var _isLogin = MutableLiveData<Int>()
     var isLogin: LiveData<Int> = _isLogin
+    var _isSuccess = MutableLiveData<Boolean>()
+    var isSuccess: LiveData<Boolean> = _isSuccess
     var _isError = MutableLiveData<String>()
     var isError: LiveData<String> = _isError
 
     private val TAG = "LoginViewModel"
 
     fun loginUsers(email: String?, password: String?) {
-//        _isLoading.value = true
         repository.getLoginUsersDatabase(email ?: "", password ?: "", { response ->
             Log.d(TAG, "loginUsers: $response")
-//            _isLoading.value = false
             _isLogin.value = response
+//            _isSuccess.value = true
         }, { error ->
             Log.d(TAG, "loginUsers: $error, ${error.localizedMessage}")
-//            _isLoading.value = false
+//            _isSuccess.value = false
             _isError.value = error.localizedMessage
         })
     }

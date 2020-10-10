@@ -1,7 +1,6 @@
 package abika.sinau.assignmentweek8.ui.register.register2
 
 import abika.sinau.assignmentweek8.R
-import abika.sinau.assignmentweek8.data.database.shops.ShopsDatabase
 import abika.sinau.assignmentweek8.data.database.user.UsersEntity
 import abika.sinau.assignmentweek8.ui.register.RegisterViewModel
 import abika.sinau.assignmentweek8.utils.extension.gone
@@ -45,8 +44,6 @@ class Register2Fragment : Fragment(), View.OnClickListener {
         getEmail = arguments?.getString("email")
 
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-
-//        userData = context?.let { ShopsDatabase.getInstanceShops(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,9 +61,21 @@ class Register2Fragment : Fragment(), View.OnClickListener {
             showError(it)
         })
 
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer{
             showLoading(it)
         })
+
+        viewModel.isSuccess.observe(viewLifecycleOwner, Observer{
+            showSuccess(it)
+        })
+    }
+
+    private fun showSuccess(it: Boolean?) {
+        if (it == true){
+            showToast("Sukses mendaftarkan user")
+        } else {
+            showToast("Gagal mendaftarkan user")
+        }
     }
 
     private fun showLoading(it: Boolean?) {
@@ -102,24 +111,6 @@ class Register2Fragment : Fragment(), View.OnClickListener {
                                 "name" to getName,
                                 "email" to getEmail,
                             )
-//                            Observable.fromCallable {
-//                                userData?.usersDao()?.insertDataUsers(
-//                                    UsersEntity(
-//                                        null,
-//                                        getName,
-//                                        getEmail,
-//                                        etPassword.text.toString()
-//                                    )
-//                                )
-//                            }
-//                                .subscribeOn(Schedulers.io())
-//                                .observeOn(AndroidSchedulers.mainThread())
-//                                .subscribe({ response ->
-//                                    Log.d(TAG, "addUsers 1: $response")
-//                                }, { error ->
-//                                    // error ketika gagal
-//                                    Log.d(TAG, "addUsers 2: $error")
-//                                })
                             viewModel.insertUsers(
                                 UsersEntity(
                                     null,
