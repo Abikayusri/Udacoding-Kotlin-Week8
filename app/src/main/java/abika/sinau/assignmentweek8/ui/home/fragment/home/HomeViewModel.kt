@@ -2,6 +2,7 @@ package abika.sinau.assignmentweek8.ui.home.fragment.home
 
 import abika.sinau.assignmentweek8.data.database.shops.ShopsEntity
 import abika.sinau.assignmentweek8.repository.shops.RepositoryLocalShops
+import abika.sinau.assignmentweek8.utils.extension.shortToast
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -14,6 +15,7 @@ import androidx.lifecycle.MutableLiveData
  */
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val repository = RepositoryLocalShops(application.applicationContext)
+    val context = getApplication<Application>().applicationContext
 
     private var _rAddShops = MutableLiveData<Boolean>()
     var rAddShops: LiveData<Boolean> = _rAddShops
@@ -46,15 +48,24 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun addDataShops(shop: ShopsEntity) {
         _isLoading.value = true
         Log.d(TAG, "addDataShops: $shop")
-        repository.addItemShop(shop, {
-            Log.d(TAG, "addDataShops: $it")
-            _isLoading.value = false
-            _rAddShops.value = it
-        }, {
-            Log.d(TAG, "addDataShops: $it, ${it.localizedMessage}")
-            _isLoading.value = false
-            _isError.value = it.localizedMessage
-        })
+
+        if (shop.title.toString().isEmpty() || shop.place.toString().isEmpty() ||
+            shop.quantity.toString().isEmpty() || shop.note.toString().isEmpty()
+        ) {
+            _isSuccess.value = false
+            shortToast(context, "Data tidak boleh ada yang kosong!")
+        } else {
+            repository.addItemShop(shop, {
+                Log.d(TAG, "addDataShops: $it")
+                _isSuccess.value = true
+                _isLoading.value = false
+                _rAddShops.value = it
+            }, {
+                Log.d(TAG, "addDataShops: $it, ${it.localizedMessage}")
+                _isLoading.value = false
+                _isError.value = it.localizedMessage
+            })
+        }
     }
 
     fun deleteDataShops(shop: ShopsEntity) {
@@ -62,7 +73,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         repository.deleteItemShop(shop, {
             Log.d(TAG, "deleteDataShops: masuk sini 1 $it")
             _rActionShops.value = it
-
+            _isSuccess.value = true
         }, {
             Log.d(TAG, "deleteDataShops: masuk sini 2 $it, ${it.localizedMessage}")
             _isError.value = it.localizedMessage
@@ -70,17 +81,25 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun updateDataShops(shop: ShopsEntity) {
-        Log.d(TAG, "updateDataShops: masuk sini $shop")
-        _isLoading.value = true
-        repository.updateItemShop(shop, {
-            Log.d(TAG, "updateDataShops: masuk sini 2 $it")
-            _isLoading.value = false
-            _rActionShops.value = it
+        if (shop.title.toString().isEmpty() || shop.place.toString().isEmpty() ||
+            shop.quantity.toString().isEmpty() || shop.note.toString().isEmpty()
+        ) {
+            _isSuccess.value = false
+            shortToast(context, "Data tidak boleh ada yang kosong!")
+        } else {
+            Log.d(TAG, "updateDataShops: masuk sini $shop")
+            _isLoading.value = true
+            repository.updateItemShop(shop, {
+                Log.d(TAG, "updateDataShops: masuk sini 2 $it")
+                _isLoading.value = false
+                _isSuccess.value = true
+                _rActionShops.value = it
 //            _rShowShops.value =
-        }, {
-            Log.d(TAG, "updateDataShops: masuk sini 3 $it, ${it.localizedMessage}")
-            _isLoading.value = false
-            _isError.value = it.localizedMessage
-        })
+            }, {
+                Log.d(TAG, "updateDataShops: masuk sini 3 $it, ${it.localizedMessage}")
+                _isLoading.value = false
+                _isError.value = it.localizedMessage
+            })
+        }
     }
 }

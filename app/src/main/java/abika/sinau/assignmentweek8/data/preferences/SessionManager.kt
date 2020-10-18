@@ -27,12 +27,6 @@ class SessionManager(var c: Context) {
             editor?.putBoolean(ISLOGIN, true)
             editor?.commit()
         }
-    var nama: String?
-        get() = pref?.getString(NAME, "")
-        set(nama) {
-            editor?.putString(NAME, nama)
-            editor?.commit()
-        }
     var email: String?
         get() = pref?.getString(EMAIL, "")
         set(email) {

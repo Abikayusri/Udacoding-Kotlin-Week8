@@ -3,7 +3,7 @@ package abika.sinau.assignmentweek8.ui.splash_screen
 import abika.sinau.assignmentweek8.R
 import abika.sinau.assignmentweek8.data.preferences.SessionManager
 import abika.sinau.assignmentweek8.ui.home.MainActivity
-import abika.sinau.assignmentweek8.ui.main.BoardingActivity
+import abika.sinau.assignmentweek8.ui.boarding.BoardingActivity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler

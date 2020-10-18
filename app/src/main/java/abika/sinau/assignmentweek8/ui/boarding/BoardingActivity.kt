@@ -1,4 +1,4 @@
-package abika.sinau.assignmentweek8.ui.main
+package abika.sinau.assignmentweek8.ui.boarding
 
 import abika.sinau.assignmentweek8.R
 import androidx.appcompat.app.AppCompatActivity

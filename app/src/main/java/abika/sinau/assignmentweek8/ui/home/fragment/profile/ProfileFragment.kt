@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import abika.sinau.assignmentweek8.R
 import abika.sinau.assignmentweek8.data.preferences.SessionManager
-import abika.sinau.assignmentweek8.ui.main.BoardingActivity
+import abika.sinau.assignmentweek8.ui.boarding.BoardingActivity
 import abika.sinau.assignmentweek8.utils.extension.shortToast
 import android.content.Intent
 import android.util.Log
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlin.math.log
 
 class ProfileFragment : Fragment() {
 

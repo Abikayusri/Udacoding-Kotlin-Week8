@@ -1,6 +1,5 @@
-package abika.sinau.assignmentweek8.ui.main.fragment
+package abika.sinau.assignmentweek8.ui.boarding.fragment
 
-import abika.sinau.assignmentweek8.data.database.user.UsersEntity
 import abika.sinau.assignmentweek8.repository.users.RepositoryLocalUsers
 import android.app.Application
 import android.util.Log
