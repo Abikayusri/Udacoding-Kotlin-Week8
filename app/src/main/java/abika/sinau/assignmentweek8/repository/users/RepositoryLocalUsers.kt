@@ -14,8 +14,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
  */
 class RepositoryLocalUsers(context: Context) {
     private val TAG = "RepositoryLocalUsers"
-
-//        private val userDatabase = UsersDatabase.getInstanceUsers(context)
     private val userDatabase = ShopsDatabase.getInstanceShops(context)
 
     fun addUsers(
@@ -43,6 +41,22 @@ class RepositoryLocalUsers(context: Context) {
         errorHandler: (Throwable) -> Unit
     ) {
         Observable.fromCallable { userDatabase?.usersDao()?.getSelectedDataUsers(email, password) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                responseHandler(it)
+            }, {
+                errorHandler(it)
+            })
+    }
+
+    fun getCheckExistedEmailDatabase(
+        name: String,
+        email: String,
+        responseHandler: (Int?) -> Unit,
+        errorHandler: (Throwable) -> Unit
+    ) {
+        Observable.fromCallable { userDatabase?.usersDao()?.getSelectedUsers(name, email) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

@@ -14,6 +14,7 @@ import androidx.lifecycle.MutableLiveData
  */
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     val repository = RepositoryLocalUsers(application.applicationContext)
+    val context = getApplication<Application>().applicationContext
 
     var _rActionUser = MutableLiveData<Boolean>()
     var rActionMhs: LiveData<Boolean> = _rActionUser
@@ -21,6 +22,10 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     var isError: LiveData<Throwable> = _isError
     var _isSuccess = MutableLiveData<Boolean>()
     var isSuccess: LiveData<Boolean> = _isSuccess
+    var _isLogin = MutableLiveData<Int>()
+    var isLogin: LiveData<Int> = _isLogin
+    var _isEmpty = MutableLiveData<Int>()
+    var isEmpty: LiveData<Int> = _isEmpty
     var _isLoading = MutableLiveData<Boolean>()
     var isLoading: LiveData<Boolean> = _isLoading
 
@@ -40,5 +45,16 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                 _isSuccess.value = false
                 _isError.value = it
             })
+    }
+
+    fun checkedExistedUsers(name: String, email: String?) {
+        repository.getCheckExistedEmailDatabase(name ?: "", email ?: "", { response ->
+            Log.d(TAG, "loginUsers: $response")
+            _isEmpty.value = response
+        }, { error ->
+            Log.d(TAG, "loginUsers: $error, ${error.localizedMessage}")
+            _isSuccess.value = false
+            _isError.value = error
+        })
     }
 }

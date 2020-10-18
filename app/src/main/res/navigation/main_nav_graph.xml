@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="abika.sinau.assignmentweek8.ui.main.fragment.LoginFragment"
+        android:name="abika.sinau.assignmentweek8.ui.boarding.fragment.LoginFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_login">
         <action

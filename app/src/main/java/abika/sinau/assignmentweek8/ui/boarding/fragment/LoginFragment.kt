@@ -1,4 +1,4 @@
-package abika.sinau.assignmentweek8.ui.main.fragment
+package abika.sinau.assignmentweek8.ui.boarding.fragment
 
 import abika.sinau.assignmentweek8.R
 import abika.sinau.assignmentweek8.data.preferences.SessionManager
@@ -28,6 +28,11 @@ class LoginFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,21 +48,9 @@ class LoginFragment : Fragment(), View.OnClickListener {
             showError(it)
         })
 
-        viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
-            showSuccess(it)
-        })
-
         viewModel.isLogin.observe(viewLifecycleOwner, Observer {
             showLogin(it)
         })
-    }
-
-    private fun showSuccess(it: Boolean?) {
-        if (it == true){
-            shortToast(requireContext(), "Login Berhasil")
-        } else {
-            shortToast(requireContext(), "Login Gagal")
-        }
     }
 
     private fun showLogin(it: Int?) {
@@ -81,11 +74,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
         shortToast(requireContext(), it)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-    }
-
     override fun onClick(view: View?) {
         when (view?.id) {
             /** Untuk login **/
@@ -104,6 +92,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
                     }
                 }
             }
+
             /** Untuk register **/
             R.id.btnRegisterMain -> navController.navigate(
                 R.id.action_loginFragment_to_register1Fragment

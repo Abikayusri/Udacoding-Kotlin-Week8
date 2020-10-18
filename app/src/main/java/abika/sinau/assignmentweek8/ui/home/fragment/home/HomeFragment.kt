@@ -62,47 +62,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showAddDialogs() {
-        val dialog = AlertDialog.Builder(requireContext())
-        val view = layoutInflater.inflate(R.layout.dialog_form_shops, null)
-        dialog.setView(view)
-
-        view.btnSave.setOnClickListener {
-            if (view.etNameItemShops.text.toString().isEmpty() || view.etNamePlaceShops.text.toString().isEmpty() ||
-                view.etJumlahItemShops.text.toString().isEmpty() || view.etKeterangan.text.toString().isEmpty()){
-                shortToast(requireContext(), "Data tidak boleh ada yang kosong!")
-
-//                Log.d(TAG, "showAddDialogs: ${view.etNameItemShops}, ${view.etNamePlaceShops}, ${view.etJumlahItemShops}, ${view.etKeterangan}, ${getDate()}")
-            } else {
-                val nameItem = view.findViewById<EditText>(R.id.etNameItemShops)
-                val namePlace = view.findViewById<EditText>(R.id.etNamePlaceShops)
-                val jumlahItem = view.findViewById<EditText>(R.id.etJumlahItemShops)
-                val keterangan = view.findViewById<EditText>(R.id.etKeterangan)
-
-                Log.d(TAG, "showAddDialogs: $nameItem, $namePlace, $jumlahItem, $keterangan, ${getDate()}")
-                viewModel.addDataShops(ShopsEntity(
-                    null,
-                    nameItem.text.toString(),
-                    namePlace.text.toString(),
-                    jumlahItem.text.toString().toInt(),
-                    keterangan.text.toString(),
-                    getDate()))
-
-                viewModel.showDataShops()
-//                Log.d(TAG, "showAddDialogs: ${view.etNameItemShops}, ${view.etNamePlaceShops}, ${view.etJumlahItemShops}, ${view.etKeterangan}, ${getDate()}")
-                Log.d(TAG, "showAddDialogs: ${nameItem.text}, ${namePlace.text}, ${jumlahItem.text}, ${keterangan.text.toString()}, ${getDate()}")
-                dialogView?.dismiss()
-            }
-        }
-
-        view.btnCancel.setOnClickListener {
-            dialogView?.dismiss()
-        }
-
-        dialogView = dialog.create()
-        dialogView?.show()
-    }
-
     private fun attachObserve() {
         viewModel.isError.observe(viewLifecycleOwner, Observer {
             showError(it)
@@ -112,9 +71,9 @@ class HomeFragment : Fragment() {
             showEmpty(it)
         })
 
-//        viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
-//            showSuccess(it)
-//        })
+        viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
+            showSuccess(it)
+        })
 
         viewModel.isLoading.observe(viewLifecycleOwner, Observer {
             showLoading(it)
@@ -133,8 +92,43 @@ class HomeFragment : Fragment() {
         })
     }
 
+    private fun showAddDialogs() {
+        val dialog = AlertDialog.Builder(requireContext())
+        val view = layoutInflater.inflate(R.layout.dialog_form_shops, null)
+
+        val nameItem = view.etNameItemShops
+        val namePlace = view.etNamePlaceShops
+        val jumlahItem = view.etJumlahItemShops
+        val keterangan = view.etKeterangan
+        dialog.setView(view)
+
+        view.btnSave.setOnClickListener {
+
+            Log.d(
+                TAG,
+                "showAddDialogs: ${nameItem.text}, ${namePlace.text}, ${jumlahItem.text}, ${keterangan.text}, ${getDate()}"
+            )
+            viewModel.addDataShops(ShopsEntity(
+                null,
+                nameItem.text.toString(),
+                namePlace.text.toString(),
+                jumlahItem.text.toString(),
+                keterangan.text.toString(),
+                getDate()))
+
+            Log.d(TAG, "showAddDialogs: ${nameItem.text}, ${namePlace.text}, ${jumlahItem.text}, ${keterangan.text.toString()}, ${getDate()}")
+            viewModel.showDataShops()
+        }
+
+        view.btnCancel.setOnClickListener {
+            dialogView?.dismiss()
+        }
+
+        dialogView = dialog.create()
+        dialogView?.show()
+    }
+
     private fun showDataShops(it: List<ShopsEntity>?) {
-//        shortToast(requireContext(), "$it")
         rvHome.adapter = HomeAdapter(it, object : HomeAdapter.OnClickListener {
             override fun onUpdate(item: ShopsEntity?) {
                 showUpdateDialogs(item)
@@ -145,7 +139,6 @@ class HomeFragment : Fragment() {
                     setTitle("Hapus Data")
                     setMessage("Yakin menghapus data?")
                     setPositiveButton("Hapus") { dialog, which ->
-                        dialog.dismiss()
                         viewModel.deleteDataShops(item!!)
                     }
                     setNegativeButton("Cancel") { dialog, which ->
@@ -174,22 +167,16 @@ class HomeFragment : Fragment() {
         etJumlah.setText(item?.quantity.toString())
         etKeterangan.setText(item?.note)
         btnSave.setOnClickListener {
-            if (etNameItem.text.toString().isNullOrEmpty() || etNamePlace.text.toString().isNullOrEmpty() ||
-                etJumlah.text.toString().isNullOrEmpty() || etKeterangan.text.toString().isNullOrEmpty()){
-                shortToast(requireContext(), "Data tidak boleh ada yang kosong!")
-            } else {
-                Log.d(TAG, "showUpdateDialogs: masuk sini 2 ${item?.id}, ${etNameItem.text}, ${etNamePlace.text}," +
-                        "${etJumlah.text}, ${etKeterangan.text}")
-                viewModel.updateDataShops(ShopsEntity(
-                    item?.id,
-                    etNameItem.text.toString(),
-                    etNamePlace.text.toString(),
-                    etJumlah.text.toString().toInt(),
-                    etKeterangan.text.toString(),
-                    getDate()
-                ))
-                dialogView?.dismiss()
-            }
+            Log.d(TAG, "showUpdateDialogs: masuk sini 2 ${item?.id}, ${etNameItem.text}, ${etNamePlace.text}," +
+                    "${etJumlah.text}, ${etKeterangan.text}")
+            viewModel.updateDataShops(ShopsEntity(
+                item?.id,
+                etNameItem.text.toString(),
+                etNamePlace.text.toString(),
+                etJumlah.text.toString(),
+                etKeterangan.text.toString(),
+                getDate()
+            ))
         }
 
         view.btnCancel.setOnClickListener {
@@ -208,16 +195,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun showLoading(it: Boolean?) {
-        if (it == true){
-            pbHome.show()
-        } else {
-            pbHome.gone()
-        }
+        if (it == true) pbHome.show() else pbHome.gone()
     }
 
-//    private fun showSuccess(it: Boolean?) {
-//        if (it == true) shortToast(requireContext(), "Sukses Login")
-//    }
+    private fun showSuccess(it: Boolean?) {
+        if (it == true) dialogView?.dismiss()
+    }
 
     private fun showEmpty(it: String?) {
         shortToast(requireContext(), it)

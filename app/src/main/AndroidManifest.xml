@@ -22,7 +22,7 @@
             android:name=".ui.home.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ui.main.BoardingActivity"
+            android:name=".ui.boarding.BoardingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

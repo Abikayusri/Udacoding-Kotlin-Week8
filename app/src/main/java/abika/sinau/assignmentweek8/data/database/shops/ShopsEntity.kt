@@ -21,7 +21,7 @@ data class ShopsEntity (
     var place: String? =null,
 
     @ColumnInfo(name = "quantity")
-    var quantity: Int? =null,
+    var quantity: String? =null,
 
     @ColumnInfo(name = "note")
     var note: String? =null,
