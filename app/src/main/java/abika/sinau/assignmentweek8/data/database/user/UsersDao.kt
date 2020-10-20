@@ -18,8 +18,8 @@ interface UsersDao {
     @Query("SELECT COUNT(id) AS status FROM users WHERE email=:email AND password=:password")
     fun getSelectedDataUsers(email: String, password: String): Int
 
-    @Query("SELECT COUNT(id) AS status FROM users WHERE username=:name AND email=:email")
-    fun getSelectedUsers(name: String, email: String): Int
+    @Query("SELECT COUNT(id) AS status FROM users WHERE username=:name OR email=:email")
+    fun  getSelectedUsers(name: String, email: String): Int
 
     @Insert
     fun insertDataUsers(usersEntity: UsersEntity)

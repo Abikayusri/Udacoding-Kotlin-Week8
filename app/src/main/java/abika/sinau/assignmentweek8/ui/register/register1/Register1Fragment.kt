@@ -4,6 +4,7 @@ import abika.sinau.assignmentweek8.R
 import abika.sinau.assignmentweek8.ui.register.RegisterViewModel
 import abika.sinau.assignmentweek8.utils.extension.shortToast
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_register1.*
 class Register1Fragment : Fragment(), View.OnClickListener {
     private lateinit var viewModel: RegisterViewModel
     lateinit var navController: NavController
+    private var TAG = "Register1Fragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,15 +45,29 @@ class Register1Fragment : Fragment(), View.OnClickListener {
     }
 
     private fun attachObserve() {
-
         viewModel.isEmpty.observe(viewLifecycleOwner, Observer {
-            showSuccess(it)
+            Log.d(TAG, "attachObserve: $it")
+            showEmpty(it)
         })
     }
 
-    private fun showSuccess(it: Int?) {
+    private fun showEmpty(it: Int?) {
+        Log.d(TAG, "showEmpty: $it")
         if (it == 1) {
-            shortToast(requireContext(), "Lanjut gan")
+//            shortToast(requireContext(), "Lanjut gan")
+//            val bundle =
+//                bundleOf(
+//                    "name" to etName.text.toString(),
+//                    "email" to etEmail.text.toString()
+//                )
+//            navController.navigate(
+//                R.id.action_register1Fragment_to_register2Fragment,
+//                bundle
+//            )
+            shortToast(requireContext(), "Data sudah pernah ada")
+        } else {
+//            shortToast(requireContext(), "Data udah pernah ada gan")
+//            shortToast(requireContext(), "Lanjut gan")
             val bundle =
                 bundleOf(
                     "name" to etName.text.toString(),
@@ -61,8 +77,6 @@ class Register1Fragment : Fragment(), View.OnClickListener {
                 R.id.action_register1Fragment_to_register2Fragment,
                 bundle
             )
-        } else {
-            shortToast(requireContext(), "Data udah pernah ada gan")
         }
     }
 
@@ -82,6 +96,7 @@ class Register1Fragment : Fragment(), View.OnClickListener {
                         etEmail.error = "Format email tidak valid"
                     }
                     else -> {
+                        Log.d(TAG, "onClick: $name, $email")
                         viewModel.checkedExistedUsers(name, email)
                     }
                 }
