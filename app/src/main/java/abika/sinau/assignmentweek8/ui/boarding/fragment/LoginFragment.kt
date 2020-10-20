@@ -49,11 +49,13 @@ class LoginFragment : Fragment(), View.OnClickListener {
         })
 
         viewModel.isLogin.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "attachObserve: $it")
             showLogin(it)
         })
     }
 
     private fun showLogin(it: Int?) {
+        Log.d(TAG, "showLogin: $it")
         if (it == 1) {
             val session = SessionManager(requireContext())
             val email = etEmailMain.text.toString()
@@ -88,6 +90,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
                         etPasswordMain.error = "Password tidak boleh kosong"
                     }
                     else -> {
+                        Log.d(TAG, "onClick: $email, $password")
                         viewModel.loginUsers(email, password)
                     }
                 }

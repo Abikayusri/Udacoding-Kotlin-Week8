@@ -27,7 +27,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loginUsers(email: String?, password: String?) {
         repository.getLoginUsersDatabase(email ?: "", password ?: "", { response ->
-            Log.d(TAG, "loginUsers: $response")
+            Log.d(TAG, "loginUsers: email:$email, pass:$password")
+            Log.d(TAG, "loginUsers: response:$response")
             _isLogin.value = response
         }, { error ->
             Log.d(TAG, "loginUsers: $error, ${error.localizedMessage}")

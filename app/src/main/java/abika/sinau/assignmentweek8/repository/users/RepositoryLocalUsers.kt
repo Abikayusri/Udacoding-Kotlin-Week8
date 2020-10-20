@@ -44,8 +44,10 @@ class RepositoryLocalUsers(context: Context) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                Log.d(TAG, "getLoginUsersDatabase 1: email: $email, pass:$password, $it")
                 responseHandler(it)
             }, {
+                Log.d(TAG, "getLoginUsersDatabase 2: email: $email, pass:$password, $it")
                 errorHandler(it)
             })
     }
@@ -60,8 +62,10 @@ class RepositoryLocalUsers(context: Context) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                Log.d(TAG, "getCheckExistedEmailDatabase 1: name: $name, email:$email, $it")
                 responseHandler(it)
             }, {
+                Log.d(TAG, "getCheckExistedEmailDatabase 2: name: $name, email:$email, $it")
                 errorHandler(it)
             })
     }

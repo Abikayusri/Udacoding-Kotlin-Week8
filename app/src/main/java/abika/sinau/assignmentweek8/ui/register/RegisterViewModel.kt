@@ -49,9 +49,10 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     fun checkedExistedUsers(name: String, email: String?) {
         repository.getCheckExistedEmailDatabase(name ?: "", email ?: "", { response ->
-            Log.d(TAG, "loginUsers: $response")
+            Log.d(TAG, "checkedExistedUsers 1: name:$name, email:$email, $response")
             _isEmpty.value = response
         }, { error ->
+            Log.d(TAG, "checkedExistedUsers 2: name:$name, email:$email, $error")
             Log.d(TAG, "loginUsers: $error, ${error.localizedMessage}")
             _isSuccess.value = false
             _isError.value = error

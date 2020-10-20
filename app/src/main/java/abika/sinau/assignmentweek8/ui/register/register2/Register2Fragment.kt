@@ -6,12 +6,14 @@ import abika.sinau.assignmentweek8.ui.register.RegisterViewModel
 import abika.sinau.assignmentweek8.utils.extension.gone
 import abika.sinau.assignmentweek8.utils.extension.shortToast
 import abika.sinau.assignmentweek8.utils.extension.show
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -123,6 +125,7 @@ class Register2Fragment : Fragment(), View.OnClickListener {
                                 R.id.action_register2Fragment_to_resultFragment,
                                 bundle
                             )
+//                            activity?.finish()
                         } else {
                             Toast.makeText(context, "Password tidak sama", Toast.LENGTH_SHORT)
                                 .show()
@@ -130,7 +133,19 @@ class Register2Fragment : Fragment(), View.OnClickListener {
                     }
                 }
             }
-            R.id.back -> activity?.onBackPressed()
+            R.id.back -> {
+                AlertDialog.Builder(requireContext()).apply {
+//                    setTitle("Hapus Data")
+                    setMessage("Yakin tidak mau lanjut?")
+                    setPositiveButton("Iya") { dialog, which ->
+//                        activity?.onBackPressed()
+                        activity?.finish()
+                    }
+                    setNegativeButton("Tidak") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                }.show()
+            }
         }
     }
 }
