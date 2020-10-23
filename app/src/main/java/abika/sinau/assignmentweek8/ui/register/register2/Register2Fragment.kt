@@ -6,7 +6,6 @@ import abika.sinau.assignmentweek8.ui.register.RegisterViewModel
 import abika.sinau.assignmentweek8.utils.extension.gone
 import abika.sinau.assignmentweek8.utils.extension.shortToast
 import abika.sinau.assignmentweek8.utils.extension.show
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,7 +19,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.fragment_register1.*
 import kotlinx.android.synthetic.main.fragment_register2.*
+import kotlinx.android.synthetic.main.fragment_register2.back
 
 class Register2Fragment : Fragment(), View.OnClickListener {
     private lateinit var navController: NavController
@@ -63,18 +64,51 @@ class Register2Fragment : Fragment(), View.OnClickListener {
             showError(it)
         })
 
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer{
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
             showLoading(it)
         })
 
-        viewModel.isSuccess.observe(viewLifecycleOwner, Observer{
+        viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
             showSuccess(it)
+        })
+
+        viewModel.passwordEmpty.observe(viewLifecycleOwner, Observer {
+            showPasswordEmpty(it)
+        })
+
+        viewModel.confPasswordEmpty.observe(viewLifecycleOwner, Observer {
+            showConfPasswordEmpty(it)
+        })
+
+        viewModel.passwordNotSame.observe(viewLifecycleOwner, Observer {
+            showNotSame(it)
         })
     }
 
+    private fun showNotSame(it: Boolean?) {
+        if (it == true) shortToast(requireContext(), "Password tidak sama!")
+    }
+
+    private fun showConfPasswordEmpty(it: Boolean?) {
+        if (it == true) etConfirmPassword.error = "Konfirmasi Password tidak boleh kosong!"
+
+    }
+
+    private fun showPasswordEmpty(it: Boolean?) {
+        if (it == true) etPassword.error = "Password tidak boleh kosong!"
+    }
+
     private fun showSuccess(it: Boolean?) {
-        if (it == true){
+        if (it == true) {
             showToast("Sukses mendaftarkan user")
+            val bundle = bundleOf(
+                "name" to getName,
+                "email" to getEmail,
+            )
+            navController.navigate(
+                R.id.action_register2Fragment_to_resultFragment,
+                bundle
+            )
         } else {
             showToast("Gagal mendaftarkan user")
         }
@@ -98,40 +132,53 @@ class Register2Fragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
+        val password = etPassword.text.toString()
+        val confPassword = etConfirmPassword.text.toString()
         when (view?.id) {
             R.id.btnFinish -> {
-                when {
-                    etPassword.text.toString().isEmpty() -> {
-                        etPassword.error = "Password harus diisi"
-                    }
-                    etConfirmPassword.text.toString().isEmpty() -> {
-                        etConfirmPassword.error = "Confirmation Password harus diisi"
-                    }
-                    else -> {
-                        if (etPassword.text.toString() == etConfirmPassword.text.toString()) {
-                            val bundle = bundleOf(
-                                "name" to getName,
-                                "email" to getEmail,
-                            )
-                            viewModel.insertUsers(
-                                UsersEntity(
-                                    null,
-                                    getName,
-                                    getEmail,
-                                    etPassword.text.toString()
-                                )
-                            )
-                            navController.navigate(
-                                R.id.action_register2Fragment_to_resultFragment,
-                                bundle
-                            )
-//                            activity?.finish()
-                        } else {
-                            Toast.makeText(context, "Password tidak sama", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                }
+
+                viewModel.insertUsers(password, confPassword,
+                    UsersEntity(
+                        null,
+                        getName,
+                        getEmail,
+                        etPassword.text.toString()
+                    )
+                )
+
+
+//                when {
+//                    etPassword.text.toString().isEmpty() -> {
+//                        etPassword.error = "Password harus diisi"
+//                    }
+//                    etConfirmPassword.text.toString().isEmpty() -> {
+//                        etConfirmPassword.error = "Confirmation Password harus diisi"
+//                    }
+//                    else -> {
+//                        if (etPassword.text.toString() == etConfirmPassword.text.toString()) {
+//                            val bundle = bundleOf(
+//                                "name" to getName,
+//                                "email" to getEmail,
+//                            )
+//                            viewModel.insertUsers(
+//                                UsersEntity(
+//                                    null,
+//                                    getName,
+//                                    getEmail,
+//                                    etPassword.text.toString()
+//                                )
+//                            )
+//                            navController.navigate(
+//                                R.id.action_register2Fragment_to_resultFragment,
+//                                bundle
+//                            )
+////                            activity?.finish()
+//                        } else {
+//                            Toast.makeText(context, "Password tidak sama", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    }
+//                }
             }
             R.id.back -> {
                 AlertDialog.Builder(requireContext()).apply {

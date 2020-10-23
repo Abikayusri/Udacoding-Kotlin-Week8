@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_register1.*
+import kotlinx.android.synthetic.main.fragment_register2.*
 
 class LoginFragment : Fragment(), View.OnClickListener {
     private lateinit var viewModel: LoginViewModel
@@ -52,6 +54,32 @@ class LoginFragment : Fragment(), View.OnClickListener {
             Log.d(TAG, "attachObserve: $it")
             showLogin(it)
         })
+
+        viewModel.emailEmpty.observe(viewLifecycleOwner, Observer {
+            emailEmpty(it)
+        })
+
+        viewModel.emailPattern.observe(viewLifecycleOwner, Observer {
+            emailPattern(it)
+        })
+
+        viewModel.passwordEmpty.observe(viewLifecycleOwner, Observer {
+            showPasswordEmpty(it)
+        })
+    }
+
+
+    private fun emailPattern(it: Boolean?) {
+        if (it == true) etEmailMain.error = "Format email tidak valid"
+    }
+
+    private fun emailEmpty(it: Boolean?) {
+        if (it == true) etEmailMain.error = "Email harus diisi!"
+
+    }
+
+    private fun showPasswordEmpty(it: Boolean?) {
+        if (it == true) etPasswordMain.error = "Password tidak boleh kosong!"
     }
 
     private fun showLogin(it: Int?) {
@@ -68,7 +96,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
             )
             activity?.finish()
         } else {
-            shortToast(requireContext(), "Login Gagal!")
+            shortToast(requireContext(), "Akunmu belum terdaftar. Silahkan daftar terlebih dahulu!")
         }
     }
 
@@ -82,18 +110,21 @@ class LoginFragment : Fragment(), View.OnClickListener {
             R.id.btnLoginMain -> {
                 val email = etEmailMain.text.toString()
                 val password = etPasswordMain.text.toString()
-                when {
-                    email.isEmpty() -> {
-                        etEmailMain.error = "Email tidak boleh kosong"
-                    }
-                    password.isEmpty() -> {
-                        etPasswordMain.error = "Password tidak boleh kosong"
-                    }
-                    else -> {
-                        Log.d(TAG, "onClick: $email, $password")
-                        viewModel.loginUsers(email, password)
-                    }
-                }
+
+                viewModel.loginUsers(email, password)
+
+//                when {
+//                    email.isEmpty() -> {
+//                        etEmailMain.error = "Email tidak boleh kosong"
+//                    }
+//                    password.isEmpty() -> {
+//                        etPasswordMain.error = "Password tidak boleh kosong"
+//                    }
+//                    else -> {
+//                        Log.d(TAG, "onClick: $email, $password")
+//                        viewModel.loginUsers(email, password)
+//                    }
+//                }
             }
 
             /** Untuk register **/

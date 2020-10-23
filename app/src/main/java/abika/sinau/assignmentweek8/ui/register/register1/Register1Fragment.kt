@@ -49,25 +49,38 @@ class Register1Fragment : Fragment(), View.OnClickListener {
             Log.d(TAG, "attachObserve: $it")
             showEmpty(it)
         })
+
+        viewModel.nameEmpty.observe(viewLifecycleOwner, Observer {
+            nameEmpty(it)
+        })
+
+        viewModel.emailEmpty.observe(viewLifecycleOwner, Observer {
+            emailEmpty(it)
+        })
+
+        viewModel.emailPattern.observe(viewLifecycleOwner, Observer {
+            emailPattern(it)
+        })
+    }
+
+    private fun emailPattern(it: Boolean?) {
+        if (it == true) etEmail.error = "Format email tidak valid"
+    }
+
+    private fun emailEmpty(it: Boolean?) {
+        if (it == true) etEmail.error = "Email harus diisi!"
+
+    }
+
+    private fun nameEmpty(it: Boolean?) {
+        if (it == true) etName.error = "Nama harus diisi!"
     }
 
     private fun showEmpty(it: Int?) {
         Log.d(TAG, "showEmpty: $it")
         if (it == 1) {
-//            shortToast(requireContext(), "Lanjut gan")
-//            val bundle =
-//                bundleOf(
-//                    "name" to etName.text.toString(),
-//                    "email" to etEmail.text.toString()
-//                )
-//            navController.navigate(
-//                R.id.action_register1Fragment_to_register2Fragment,
-//                bundle
-//            )
             shortToast(requireContext(), "Data sudah pernah ada")
         } else {
-//            shortToast(requireContext(), "Data udah pernah ada gan")
-//            shortToast(requireContext(), "Lanjut gan")
             val bundle =
                 bundleOf(
                     "name" to etName.text.toString(),
@@ -85,21 +98,22 @@ class Register1Fragment : Fragment(), View.OnClickListener {
         val email = etEmail.text.toString()
         when (view?.id) {
             R.id.btnNext -> {
-                when {
-                    name.isEmpty() -> {
-                        etName.error = "Nama harus diisi!"
-                    }
-                    email.isEmpty() -> {
-                        etEmail.error = "Email harus diisi"
-                    }
-                    !Patterns.EMAIL_ADDRESS.matcher(etEmail.text).matches() -> {
-                        etEmail.error = "Format email tidak valid"
-                    }
-                    else -> {
-                        Log.d(TAG, "onClick: $name, $email")
-                        viewModel.checkedExistedUsers(name, email)
-                    }
-                }
+                viewModel.checkedExistedUsers(name, email)
+//                when {
+//                    name.isEmpty() -> {
+//                        etName.error = "Nama harus diisi!"
+//                    }
+//                    email.isEmpty() -> {
+//                        etEmail.error = "Email harus diisi"
+//                    }
+//                    !Patterns.EMAIL_ADDRESS.matcher(etEmail.text).matches() -> {
+//                        etEmail.error = "Format email tidak valid"
+//                    }
+//                    else -> {
+//                        Log.d(TAG, "onClick: $name, $email")
+//                        viewModel.checkedExistedUsers(name, email)
+//                    }
+//                }
             }
             R.id.back -> activity?.onBackPressed()
         }
