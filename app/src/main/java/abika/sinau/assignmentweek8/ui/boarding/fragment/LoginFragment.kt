@@ -112,19 +112,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
                 val password = etPasswordMain.text.toString()
 
                 viewModel.loginUsers(email, password)
-
-//                when {
-//                    email.isEmpty() -> {
-//                        etEmailMain.error = "Email tidak boleh kosong"
-//                    }
-//                    password.isEmpty() -> {
-//                        etPasswordMain.error = "Password tidak boleh kosong"
-//                    }
-//                    else -> {
-//                        Log.d(TAG, "onClick: $email, $password")
-//                        viewModel.loginUsers(email, password)
-//                    }
-//                }
             }
 
             /** Untuk register **/
